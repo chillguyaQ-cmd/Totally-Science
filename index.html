@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secure Proxy</title>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet/dist/uv.bundle.js"></script>
+  <style>
+    body {
+      font-family: system-ui;
+      background: #020617;
+      color: white;
+      display: flex;
+      justify-content: center;
+      margin-top: 120px;
+    }
+    input, button {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 8px;
+      width: 100%;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    .box {
+      width: 320px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" id="login">
+  <h2>🔒 Enter Password</h2>
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<div class="box" id="proxy" style="display:none;">
+  <h2>🌐 Enter URL</h2>
+  <input id="url" placeholder="https://example.com">
+  <button onclick="launch()">Go</button>
+</div>
+
+<script>
+/*
+  PASSWORD SETUP
+  ----------------
+  Real password:   mysecret123
+  Encoded form:    bXlzZWNyZXQxMjM=
+*/
+const encodedPass = "bXlzZWNyZXQxMjM=";
+
+function unlock() {
+  const input = document.getElementById("pass").value;
+  const encodedInput = btoa(input);
+
+  if (encodedInput === encodedPass) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("proxy").style.display = "block";
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+function launch() {
+  let url = document.getElementById("url").value;
+  if (!url.startsWith("http")) url = "https://" + url;
+
+  const encoded = __uv$config.encodeUrl(url);
+  const proxyUrl = location.origin + "/uv/" + encoded;
+
+  // about:blank cloaker
+  const win = window.open("about:blank", "_blank");
+  win.document.write(`
+    <title>Loading...</title>
+    <style>
+      html,body,iframe{margin:0;width:100%;height:100%;border:none;}
+    </style>
+    <iframe src="${proxyUrl}"></iframe>
+  `);
+  win.document.close();
+}
+</script>
+
+</body>
+</html>
