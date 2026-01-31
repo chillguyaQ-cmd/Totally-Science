@@ -13,13 +13,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Deploy to Bunny.net
-        uses: bunny-net/bunny-storage-deploy@v1.1
-        with:
-          source: "./"
-          dest: "/"
-          storage_zone: ${{ secrets.BUNNY_STORAGE_NAME }}
-          access_key: ${{ secrets.BUNNY_API_KEY }}
-          pull_zone: ${{ secrets.BUNNY_PULL_ZONE_ID }}
-          upload: true
-          remove: false
+      - name: Upload to Bunny.net
+        run: |
+          curl -X PUT "https://storage.bunnycdn.com/${{ secrets.BUNNY_STORAGE_NAME }}/" \
+          -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" \
+          -T "./index.html"
