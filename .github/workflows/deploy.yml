@@ -1,20 +1,17 @@
-name: Deploy Science Site
-
+name: Deploy
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Upload Index
-        run: curl -X PUT "https://storage.bunnycdn.com/${{ secrets.BUNNY_STORAGE_NAME }}/index.html" -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" -T "./index.html"
-
-      - name: Upload Home
-        run: curl -X PUT "https://storage.bunnycdn.com/${{ secrets.BUNNY_STORAGE_NAME }}/home.html" -H "AccessKey: ${{ secrets.BUNNY_API_KEY }}" -T "./home.html"
+      - uses: actions/checkout@v3
+      - name: Sync
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: storage.bunnycdn.com
+          username: ${{ secrets.BUNNY_STORAGE_NAME }}
+          password: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
