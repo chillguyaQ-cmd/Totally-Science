@@ -19,3 +19,4 @@ jobs:
           storagePassword: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
           upload: "true"
           remove: "true"
+          
