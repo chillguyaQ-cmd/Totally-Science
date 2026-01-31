@@ -1,0 +1,25 @@
+name: Deploy Science Site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Bunny.net
+        uses: jakejarvis/bunny-storage-deploy@v1
+        with:
+          source: "./"
+          dest: "/"
+          storage_zone: ${{ secrets.BUNNY_STORAGE_NAME }}
+          access_key: ${{ secrets.BUNNY_API_KEY }}
+          pull_zone: ${{ secrets.BUNNY_PULL_ZONE_ID }}
+          upload: true
+          remove: false
