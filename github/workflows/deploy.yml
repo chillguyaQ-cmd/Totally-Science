@@ -18,5 +18,5 @@ jobs:
           storageZoneName: "totally-science"
           storagePassword: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
           upload: "true"
-          remove: "true"
+          remove: "true" 
           
