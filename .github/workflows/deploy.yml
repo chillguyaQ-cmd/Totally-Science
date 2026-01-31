@@ -12,6 +12,6 @@ jobs:
       - name: Sync
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: storage.bunnycdn.com
+          server: ny-storage.bunnycdn.com
           username: ${{ secrets.BUNNY_STORAGE_NAME }}
           password: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
